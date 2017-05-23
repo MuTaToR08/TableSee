@@ -12,12 +12,10 @@ void main()
 		vvv.add(121, 33.41);
 		vvv.add(1212, 12.123);
 
-		cout << vvv[123] << endl;
-		cout << vvv[121] << endl;
-		cout << vvv[1212] << endl;
+		std::cout << vvv;
 
 		vvv.resize(3);
 	
-	
+		
 	cin.get();
 }
