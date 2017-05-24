@@ -67,7 +67,7 @@ void table<K, V>::add(K k, V v)
 			arrKey[countUsed] = k;
 			arrVal[countUsed++] = v;
 
-			for (size_t x = i; i < countUsed - 1; i++)
+			for (size_t x = i; x < countUsed - 1; x++)
 			{
 				K tk = arrKey[x];
 				V tv = arrVal[x];
@@ -89,32 +89,59 @@ void table<K, V>::add(K k, V v)
 template<class K, class V>
 void table<K, V>::remove(K k)
 {
-	for (size_t i = 0; i < MaxSizeTable; i++)
+	int shift = (countUsed / 2);
+	int index = shift;
+	do
 	{
-		if (arrKey[i] == k)
+		if (arrKey[index] == k || arrKey[index] == NULL)
 		{
-			for (size_t x = i; i < countUsed; i++)
+			for (size_t x = index; x < countUsed; x++)
 			{
 				arrKey[x] = arrKey[countUsed - 1];
 				arrVal[x] = arrVal[countUsed - 1];
 			}
 			arrKey[countUsed--] = NULL;
-			break;
+			return;
 		}
-	}
+		shift /= 2;
+		if (arrKey[index] < k)
+		{
+			index -= shift;
+		}
+		else
+		{
+			index += shift;
+		}
+
+	} while (shift);
 }
 
 template<class K, class V>
 V & table<K, V>::operator[](K k)
 {
 
+	int shift = (countUsed / 2);
+	int index = shift;
+	do
 	{
-		for (size_t i = 0; i < MaxSizeTable; i++)
-			if (arrKey[i] == k)
-				return arrVal[i];
+		if (arrKey[index] == k)
+		{
+			return arrVal[index];
+		}
+		shift = shift/2+shift%2;
+		if (arrKey[index] > k)
+		{
+			index -= shift;
+		}
+		else
+		{
+			index += shift;
+		}
+
+	} while (shift);
 
 		throw string("Not found index");
-	}
+	
 }
 
 template<class K, class V>
